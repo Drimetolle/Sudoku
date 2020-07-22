@@ -14,13 +14,20 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { mapMutations } from "vuex";
 
 type SelectedElement = null | number | string;
 
-@Component({})
+@Component({
+  methods: {
+    ...mapMutations(["setSelectedNumber"])
+  }
+})
 export default class ControlPanel extends Vue {
   private elements = [1, 2, 3, 4, 5, 6, 7, 8, 9, "x"];
   private selected: SelectedElement = null;
+
+  private setSelectedNumber!: (num: unknown) => void;
 
   selectElement(el: number | string): void {
     if (this.selected === el) {
@@ -28,7 +35,8 @@ export default class ControlPanel extends Vue {
     } else {
       this.selected = el;
     }
-    console.log(this.selected);
+
+    this.setSelectedNumber(this.selected);
   }
 
   isSelected(el: SelectedElement): boolean {

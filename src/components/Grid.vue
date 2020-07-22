@@ -1,24 +1,37 @@
 <template>
   <div class="container">
-    <div v-for="a in rows * columns" :key="a">
-      {{ puzzle[a] }}
+    <div v-for="(cell, i) in puzzle" :key="i" @click="inputNumber(cell)">
+      {{ cell.number }}
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { makepuzzle } from "sudoku";
+import { mapGetters } from "vuex";
+import { generatePuzzle } from "@/utils/sudoku-generator";
+import Cell from "@/components/Cell.vue";
+import CellData from "@/types/CellData";
 
-@Component
+@Component({
+  computed: {
+    ...mapGetters(["getSelectedNumber"])
+  },
+  components: {
+    Cell
+  }
+})
 export default class Grid extends Vue {
-  private rows = 9;
-  private columns = 9;
-  private puzzle = null;
+  private puzzle = new Array<CellData>();
+
+  private getSelectedNumber!: number | null;
 
   created() {
-    this.puzzle = makepuzzle();
-    console.log(this.puzzle);
+    this.puzzle = generatePuzzle();
+  }
+
+  inputNumber(cell: CellData): void {
+    if (!cell.isReadOnly) cell.number = this.getSelectedNumber;
   }
 }
 </script>
