@@ -15,7 +15,7 @@ import CellData from "@/types/CellData";
 
 @Component({
   computed: {
-    ...mapGetters(["getSelectedNumber"])
+    ...mapGetters(["getSelectedNumber", "elementIsFocused"])
   },
   components: {
     Cell
@@ -25,13 +25,15 @@ export default class Grid extends Vue {
   private puzzle = new Array<CellData>();
 
   private getSelectedNumber!: number | null;
+  private elementIsFocused!: boolean;
 
   created() {
     this.puzzle = generatePuzzle();
   }
 
   inputNumber(cell: CellData): void {
-    if (!cell.isReadOnly) cell.number = this.getSelectedNumber;
+    if (!cell.isReadOnly && this.elementIsFocused)
+      cell.number = this.getSelectedNumber;
   }
 }
 </script>

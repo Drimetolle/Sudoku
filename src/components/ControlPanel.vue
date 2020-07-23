@@ -2,12 +2,12 @@
   <div class="control-container">
     <div
       class="element"
-      :class="{ selected: isSelected(el) }"
+      :class="{ selected: elementIsSelected(el) }"
       v-for="el in elements"
-      :key="el"
+      :key="el.view"
       @click="selectElement(el)"
     >
-      {{ el }}
+      {{ el.view }}
     </div>
   </div>
 </template>
@@ -16,30 +16,76 @@
 import { Component, Vue } from "vue-property-decorator";
 import { mapMutations } from "vuex";
 
-type SelectedElement = null | number | string;
+type SelectedElement = {
+  view: string;
+  value: null | number;
+};
 
 @Component({
   methods: {
-    ...mapMutations(["setSelectedNumber"])
+    ...mapMutations(["setSelectedNumber", "throwFocus"])
   }
 })
 export default class ControlPanel extends Vue {
-  private elements = [1, 2, 3, 4, 5, 6, 7, 8, 9, "x"];
-  private selected: SelectedElement = null;
+  private elements: Array<SelectedElement> = [
+    {
+      view: "1",
+      value: 1
+    },
+    {
+      view: "2",
+      value: 2
+    },
+    {
+      view: "3",
+      value: 3
+    },
+    {
+      view: "4",
+      value: 4
+    },
+    {
+      view: "5",
+      value: 5
+    },
+    {
+      view: "6",
+      value: 6
+    },
+    {
+      view: "7",
+      value: 7
+    },
+    {
+      view: "8",
+      value: 8
+    },
+    {
+      view: "9",
+      value: 9
+    },
+    {
+      view: "x",
+      value: null
+    }
+  ];
+  private selected: null | SelectedElement = null;
 
-  private setSelectedNumber!: (num: unknown) => void;
+  private setSelectedNumber!: (num: number | null) => void;
+  private throwFocus!: () => void;
 
-  selectElement(el: number | string): void {
+  selectElement(el: SelectedElement): void {
     if (this.selected === el) {
       this.selected = null;
+      this.setSelectedNumber(null);
+      this.throwFocus();
     } else {
       this.selected = el;
+      this.setSelectedNumber(this.selected.value);
     }
-
-    this.setSelectedNumber(this.selected);
   }
 
-  isSelected(el: SelectedElement): boolean {
+  elementIsSelected(el: SelectedElement): boolean {
     return this.selected === el;
   }
 }

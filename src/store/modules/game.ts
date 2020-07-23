@@ -1,13 +1,18 @@
 class Game {
-  selected: null | number;
+  selectedElement: null | number;
+  selected: boolean;
 
   constructor() {
-    this.selected = null;
+    this.selectedElement = null;
+    this.selected = false;
   }
 }
 
 const getters = {
   getSelectedNumber(state: Game): null | number {
+    return state.selectedElement;
+  },
+  elementIsFocused(state: Game): boolean {
     return state.selected;
   }
 };
@@ -15,8 +20,12 @@ const getters = {
 const actions = {};
 
 const mutations = {
-  setSelectedNumber(state: Game, num: number) {
-    state.selected = num;
+  setSelectedNumber(state: Game, num: null | number) {
+    state.selectedElement = num;
+    state.selected = true;
+  },
+  throwFocus(state: Game) {
+    state.selected = false;
   }
 };
 
