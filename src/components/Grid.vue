@@ -9,7 +9,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { mapGetters } from "vuex";
-import { generatePuzzle } from "@/utils/sudoku-generator";
+import { generatePuzzle, validatePuzzle } from "@/utils/sudoku-rules";
 import Cell from "@/components/Cell.vue";
 import CellData from "@/types/CellData";
 
@@ -34,6 +34,10 @@ export default class Grid extends Vue {
   inputNumber(cell: CellData): void {
     if (!cell.isReadOnly && this.elementIsFocused)
       cell.number = this.getSelectedNumber;
+  }
+
+  validate(): boolean {
+    return validatePuzzle(this.puzzle);
   }
 }
 </script>

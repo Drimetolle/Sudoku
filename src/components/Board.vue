@@ -1,7 +1,9 @@
 <template>
   <div>
-    <Grid />
+    <Grid ref="grid" />
     <ControlPanel />
+    <button @click="validate()">validate</button>
+    <div v-if="valid">Puzzle valid!</div>
   </div>
 </template>
 
@@ -16,5 +18,11 @@ import ControlPanel from "@/components/ControlPanel.vue";
     ControlPanel
   }
 })
-export default class Board extends Vue {}
+export default class Board extends Vue {
+  private valid = false;
+
+  validate() {
+    this.valid = (this.$refs.grid as Grid).validate();
+  }
+}
 </script>
