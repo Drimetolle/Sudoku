@@ -5,7 +5,7 @@
       :class="{ selected: elementIsSelected(el) }"
       v-for="el in elements"
       :key="el.view"
-      @click="selectElement(el)"
+      @click="selectElementOnClick(el)"
     >
       {{ el.view }}
     </div>
@@ -15,6 +15,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { mapMutations } from "vuex";
+import { KeyboardKeys } from "@/types/Keys";
 
 type SelectedElement = {
   view: string;
@@ -74,7 +75,51 @@ export default class ControlPanel extends Vue {
   private setSelectedNumber!: (num: number | null) => void;
   private throwFocus!: () => void;
 
-  selectElement(el: SelectedElement): void {
+  created() {
+    window.addEventListener("keydown", this.keyHandler);
+  }
+  destroyed() {
+    window.removeEventListener("keydown", this.keyHandler);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  keyHandler(event: any) {
+    if (event.keyCode == KeyboardKeys.one) {
+      this.selectElementOnClick(this.elements[0]);
+    }
+    if (event.keyCode == KeyboardKeys.two) {
+      this.selectElementOnClick(this.elements[1]);
+    }
+    if (event.keyCode == 51) {
+      this.selectElementOnClick(this.elements[2]);
+    }
+    if (event.keyCode == 52) {
+      this.selectElementOnClick(this.elements[3]);
+    }
+    if (event.keyCode == 53) {
+      this.selectElementOnClick(this.elements[4]);
+    }
+    if (event.keyCode == 54) {
+      this.selectElementOnClick(this.elements[5]);
+    }
+    if (event.keyCode == 55) {
+      this.selectElementOnClick(this.elements[6]);
+    }
+    if (event.keyCode == 56) {
+      this.selectElementOnClick(this.elements[7]);
+    }
+    if (event.keyCode == 57) {
+      this.selectElementOnClick(this.elements[8]);
+    }
+    if (event.keyCode == KeyboardKeys.x) {
+      this.selectElementOnClick(this.elements[9]);
+    }
+    if (event.keyCode == KeyboardKeys.del) {
+      this.selectElementOnClick(this.elements[9]);
+    }
+  }
+
+  selectElementOnClick(el: SelectedElement): void {
     if (this.selected === el) {
       this.selected = null;
       this.setSelectedNumber(null);

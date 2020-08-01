@@ -30,7 +30,6 @@ export function generatePuzzle(): Array<CellData> {
 export function validatePuzzle(board: Array<CellData>): boolean {
   const puzzle = board.map(convert);
   const solvedPuzzle = solvepuzzle(puzzle);
-  console.log(solvedPuzzle);
-  
+
   return R.equals(puzzle, solvedPuzzle);
 }

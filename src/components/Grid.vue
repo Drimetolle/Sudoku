@@ -9,7 +9,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { mapGetters } from "vuex";
-import { generatePuzzle, validatePuzzle } from "@/utils/sudoku-rules";
+import { generatePuzzle, validatePuzzle } from "@/game-rules/sudoku-rules";
 import Cell from "@/components/Cell.vue";
 import CellData from "@/types/CellData";
 
@@ -50,7 +50,7 @@ export default class Grid extends Vue {
   width: calc(100vh / 2);
 }
 .container div {
-  background-color: red;
+  background-color: gray;
   text-align: center;
 }
 
