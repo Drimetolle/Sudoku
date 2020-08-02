@@ -4,6 +4,7 @@
       v-for="(cell, i) in puzzle.cells"
       :key="i"
       :isHover="indexOnHover(i)"
+      :isError="indexOnError(i)"
       @click="inputNumber(cell)"
       @mouseenter="searchNumbers(cell.number)"
       @mouseleave="clearHover()"
@@ -31,6 +32,7 @@ import CellData from "@/types/CellData";
 export default class Grid extends Vue {
   private puzzle = new Puzzle();
   private hoveredNumberIndexes = new Array<number>();
+  private errorNumberIndexes = new Array<number>();
 
   private getSelectedNumber!: number | null;
   private elementIsFocused!: boolean;
@@ -61,11 +63,17 @@ export default class Grid extends Vue {
   }
 
   validate(): boolean {
-    return this.puzzle.validatePuzzle();
+    this.errorNumberIndexes = this.puzzle.validatePuzzle();
+    return this.errorNumberIndexes.length == 0;
   }
 
   indexOnHover(i: number): boolean {
     if (this.hoveredNumberIndexes.find(el => el === i) === i) return true;
+    return false;
+  }
+
+  indexOnError(i: number): boolean {
+    if (this.errorNumberIndexes.find(el => el === i) === i) return true;
     return false;
   }
 

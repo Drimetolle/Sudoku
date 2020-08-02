@@ -1,12 +1,14 @@
 import { makepuzzle, solvepuzzle } from "sudoku";
 import CellData from "@/types/CellData";
-import * as R from "ramda";
 
 export default class Puzzle {
   private _puzzle = new Array<CellData>();
+  private _solvedPuzzle = new Array<number>();
 
   constructor() {
-    this._puzzle = makepuzzle().map(this.initCell);
+    const tmp = makepuzzle();
+    this._puzzle = tmp.map(this.initCell);
+    this._solvedPuzzle = solvepuzzle(tmp);
   }
 
   get cells() {
@@ -26,7 +28,28 @@ export default class Puzzle {
     return new CellData(cellValue, !!cellValue ?? false);
   }
 
-  public validatePuzzle(): boolean {
+  private forEachDiff(
+    arr1: Array<number | null>,
+    arr2: Array<number>
+  ): Array<number> {
+    const result = [];
+    for (let i = 0; i < arr1.length; i++) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      result.push((arr1[i] === null ? arr2[i] : arr1[i]!) - arr2[i]);
+    }
+
+    return result;
+  }
+
+  private findErrors(arr: Array<number>): Array<number> {
+    const result = [];
+
+    for (let i = 0; i < arr.length; i++) if (!(arr[i] == 0)) result.push(i);
+
+    return result;
+  }
+
+  public validatePuzzle(): Array<number> {
     function convert(obj: CellData) {
       if (obj.number === null) {
         return obj.number;
@@ -36,8 +59,8 @@ export default class Puzzle {
     }
 
     const puzzle = this._puzzle.map(convert);
-    const solvedPuzzle = solvepuzzle(puzzle);
+    const diff = this.forEachDiff(puzzle, this._solvedPuzzle);
 
-    return R.equals(puzzle, solvedPuzzle);
+    return this.findErrors(diff);
   }
 }

@@ -4,7 +4,7 @@
     @mouseenter="() => $emit('mouseenter')"
     @mouseleave="() => $emit('mouseleave')"
   >
-    <div :class="{ hover: isHover }">
+    <div :class="{ hover: isHover, error: isError }">
       <slot />
     </div>
   </div>
@@ -15,7 +15,8 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
 export default class Cell extends Vue {
-  @Prop(Boolean) isHover: boolean | undefined;
+  @Prop(Boolean) readonly isHover: boolean | undefined;
+  @Prop(Boolean) readonly isError: boolean | undefined;
 }
 </script>
 
@@ -30,6 +31,14 @@ export default class Cell extends Vue {
 .hover {
   background-color: aqua;
   border-radius: 50%;
+  --height: 100%;
+  height: var(--height);
+  line-height: convert(var(--height), percent, px);
+  text-align: center;
+}
+
+.error {
+  background-color: red;
   --height: 100%;
   height: var(--height);
   line-height: convert(var(--height), percent, px);
