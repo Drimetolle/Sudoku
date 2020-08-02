@@ -1,15 +1,20 @@
 <template>
   <div class="container">
-    <div v-for="(cell, i) in puzzle" :key="i" @click="inputNumber(cell)">
+    <Cell
+      v-for="(cell, i) in puzzle.cells"
+      :key="i"
+      @click="inputNumber(cell)"
+      @mouseenter="searchNumbers(cell.number)"
+    >
       {{ cell.number }}
-    </div>
+    </Cell>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { mapGetters } from "vuex";
-import { generatePuzzle, validatePuzzle } from "@/game-rules/sudoku-rules";
+import Puzzle from "@/game-rules/Puzzle";
 import Cell from "@/components/Cell.vue";
 import CellData from "@/types/CellData";
 
@@ -22,42 +27,44 @@ import CellData from "@/types/CellData";
   }
 })
 export default class Grid extends Vue {
-  private puzzle = new Array<CellData>();
+  private puzzle = new Puzzle();
 
   private getSelectedNumber!: number | null;
   private elementIsFocused!: boolean;
-
-  created() {
-    this.puzzle = generatePuzzle();
-  }
 
   inputNumber(cell: CellData): void {
     if (!cell.isReadOnly && this.elementIsFocused)
       cell.number = this.getSelectedNumber;
   }
 
+  searchNumbers(num: number | null): void {
+    if (num === null) return;
+  }
+
   validate(): boolean {
-    return validatePuzzle(this.puzzle);
+    return this.puzzle.validatePuzzle();
   }
 }
 </script>
 
 <style lang="scss">
-.container {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-gap: 1px;
-  width: calc(100vh / 2);
-}
 .container div {
-  background-color: gray;
-  text-align: center;
+  background-color: whitesmoke;
 }
 
-.container div::before {
-  content: "";
-  padding-bottom: 100%;
-  display: inline-block;
-  vertical-align: middle;
+.container {
+  --columns: 9;
+  --content-width: 80vh;
+  --gutter: 1px;
+  --row-size: calc(
+    (var(--content-width) - (var(--gutter) * (var(--columns) - 1))) /
+      var(--columns)
+  );
+  display: grid;
+  max-width: var(--content-width);
+  grid-template-columns: repeat(var(--columns), 1fr);
+  grid-auto-rows: var(--row-size);
+  grid-column-gap: var(--gutter);
+  grid-row-gap: var(--gutter);
 }
 </style>
