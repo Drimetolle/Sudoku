@@ -1,16 +1,22 @@
 <template>
-  <div @click="() => $emit('click')" @mouseenter="() => $emit('mouseenter')">
-    <div class="cell">
+  <div
+    @click="() => $emit('click')"
+    @mouseenter="() => $emit('mouseenter')"
+    @mouseleave="() => $emit('mouseleave')"
+  >
+    <div :class="{ hover: isHover }">
       <slot />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
-export default class Cell extends Vue {}
+export default class Cell extends Vue {
+  @Prop(Boolean) isHover: boolean | undefined;
+}
 </script>
 
 <style scoped lang="scss">
@@ -21,8 +27,12 @@ export default class Cell extends Vue {}
   text-align: center;
 }
 
-.cell:hover {
+.hover {
   background-color: aqua;
   border-radius: 50%;
+  --height: 100%;
+  height: var(--height);
+  line-height: convert(var(--height), percent, px);
+  text-align: center;
 }
 </style>
