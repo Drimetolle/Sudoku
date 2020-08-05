@@ -136,15 +136,16 @@ export default class ControlPanel extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .control-container {
   display: grid;
   grid-template-columns: repeat(5, 0.7fr);
   grid-gap: 1px;
-  width: calc(100vh / 2);
+  margin: 15px 0;
 }
 .element {
   cursor: pointer;
+  background-color: #d5d5d5d5;
 }
 .selected {
   background-color: aqua;

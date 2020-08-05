@@ -1,10 +1,18 @@
 <template>
   <div
+    class="container"
     @click="() => $emit('click')"
     @mouseenter="() => $emit('mouseenter')"
     @mouseleave="() => $emit('mouseleave')"
   >
-    <div :class="{ hover: isHover, error: isError, const: isReadOnly }">
+    <div
+      :class="{
+        hover: isHover,
+        error: isError,
+        const: isReadOnly,
+        cell: !isReadOnly
+      }"
+    >
       <slot />
     </div>
   </div>
@@ -22,17 +30,28 @@ export default class Cell extends Vue {
 </script>
 
 <style scoped lang="scss">
-%circle-cell {
-  --height: 100%;
-  border-radius: 50%;
+%base-cell {
+  --width: 80%;
+  --height: 80%;
   height: var(--height);
+  width: var(--width);
   line-height: convert(var(--height), percent, px);
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  cursor: pointer;
+}
+%circle-cell {
+  @extend %base-cell;
+  border-radius: 50%;
 }
 
 .hover {
   @extend %circle-cell;
   background-color: aqua !important;
+  transition: margin-right 2s, color 1s;
 }
 
 .error {
@@ -43,5 +62,16 @@ export default class Cell extends Vue {
 .const {
   @extend %circle-cell;
   background-color: #d5d5d5d5;
+  cursor: default;
+}
+
+.cell {
+  @extend %base-cell;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
