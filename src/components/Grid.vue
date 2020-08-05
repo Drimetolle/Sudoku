@@ -5,7 +5,8 @@
       :key="i"
       :isHover="indexOnHover(i)"
       :isError="indexOnError(i)"
-      @click="inputNumber(cell)"
+      :isReadOnly="cell.isReadOnly"
+      @click="inputNumber(cell, i)"
       @mouseenter="searchNumbers(cell.number)"
       @mouseleave="clearHover()"
     >
@@ -20,6 +21,7 @@ import { mapGetters } from "vuex";
 import Puzzle from "@/game-rules/Puzzle";
 import Cell from "@/components/Cell.vue";
 import CellData from "@/types/CellData";
+import * as R from "ramda";
 
 @Component({
   computed: {
@@ -37,9 +39,23 @@ export default class Grid extends Vue {
   private getSelectedNumber!: number | null;
   private elementIsFocused!: boolean;
 
-  inputNumber(cell: CellData): void {
-    if (!cell.isReadOnly && this.elementIsFocused)
-      cell.number = this.getSelectedNumber;
+  private removeIndexOfArrays(index: number) {
+    this.hoveredNumberIndexes = R.reject(
+      el => el == index,
+      this.errorNumberIndexes
+    );
+    this.errorNumberIndexes = R.reject(
+      el => el == index,
+      this.errorNumberIndexes
+    );
+  }
+
+  inputNumber(cell: CellData, index: number): void {
+    if (cell.isReadOnly) return;
+    if (!this.elementIsFocused) return;
+    if (this.getSelectedNumber == null) this.removeIndexOfArrays(index);
+
+    cell.number = this.getSelectedNumber;
   }
 
   getAllIndexes(arr: Array<number | null>, val: number) {
