@@ -53,9 +53,10 @@ export default class Grid extends Vue {
   inputNumber(cell: CellData, index: number): void {
     if (cell.isReadOnly) return;
     if (!this.elementIsFocused) return;
-    if (this.getSelectedNumber == null) this.removeIndexOfArrays(index);
 
-    cell.number = this.getSelectedNumber;
+    if (cell.number == this.getSelectedNumber) cell.number = null;
+    else cell.number = this.getSelectedNumber;
+    this.removeIndexOfArrays(index);
   }
 
   getAllIndexes(arr: Array<number | null>, val: number) {
