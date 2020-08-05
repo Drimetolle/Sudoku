@@ -138,14 +138,31 @@ export default class ControlPanel extends Vue {
 
 <style scoped lang="scss">
 .control-container {
+  --columns: 10;
+  --content-width: 80vh;
+  --gutter: 1px;
+  --row-size: calc(
+    (var(--content-width) - (var(--gutter) * (var(--columns) - 1))) /
+      var(--columns)
+  );
   display: grid;
-  grid-template-columns: repeat(5, 0.7fr);
-  grid-gap: 1px;
-  margin: 15px 0;
+  max-width: var(--content-width);
+  grid-template-columns: repeat(var(--columns), 1fr);
+  grid-auto-rows: var(--row-size);
+  grid-column-gap: var(--gutter);
+  grid-row-gap: var(--gutter);
+  margin: 15px auto;
 }
 .element {
   cursor: pointer;
   background-color: #d5d5d5d5;
+  border-radius: 50%;
+  height: 95%;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 .selected {
   background-color: aqua;
