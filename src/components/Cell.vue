@@ -22,37 +22,26 @@ export default class Cell extends Vue {
 </script>
 
 <style scoped lang="scss">
-.cell {
+%circle-cell {
   --height: 100%;
+  border-radius: 50%;
   height: var(--height);
   line-height: convert(var(--height), percent, px);
   text-align: center;
 }
 
 .hover {
+  @extend %circle-cell;
   background-color: aqua !important;
-  border-radius: 50%;
-  --height: 100%;
-  height: var(--height);
-  line-height: convert(var(--height), percent, px);
-  text-align: center;
 }
 
 .error {
+  @extend %circle-cell;
   background-color: red !important;
-  border-radius: 50%;
-  --height: 100%;
-  height: var(--height);
-  line-height: convert(var(--height), percent, px);
-  text-align: center;
 }
 
 .const {
+  @extend %circle-cell;
   background-color: #d5d5d5d5;
-  border-radius: 50%;
-  --height: 100%;
-  height: var(--height);
-  line-height: convert(var(--height), percent, px);
-  text-align: center;
 }
 </style>
