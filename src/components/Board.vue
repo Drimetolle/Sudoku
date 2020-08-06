@@ -2,6 +2,7 @@
   <div class="board">
     <Grid ref="grid" />
     <ControlPanel />
+    <button @click="resetPuzzle()">reset</button>
     <button @click="validate()">validate</button>
     <div v-if="valid">Puzzle valid!</div>
     <div v-if="isValid">Puzzle invalid!</div>
@@ -22,8 +23,12 @@ import ControlPanel from "@/components/ControlPanel.vue";
 export default class Board extends Vue {
   private valid: boolean | null = null;
 
-  validate() {
+  validate(): void {
     this.valid = (this.$refs.grid as Grid).validate();
+  }
+
+  resetPuzzle(): void {
+    (this.$refs.grid as Grid).reset();
   }
 
   get isValid(): boolean {

@@ -86,6 +86,12 @@ export default class Grid extends Vue {
     return this.errorNumberIndexes.length == 0;
   }
 
+  reset(): void {
+    this.errorNumberIndexes = [];
+    this.hoveredNumberIndexes = [];
+    this.puzzle.resetPuzzle();
+  }
+
   indexOnHover(i: number): boolean {
     if (this.hoveredNumberIndexes.find(el => el === i) === i) return true;
     return false;

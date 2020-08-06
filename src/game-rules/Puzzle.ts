@@ -1,13 +1,16 @@
 import { makepuzzle, solvepuzzle } from "sudoku";
 import CellData from "@/types/CellData";
+import * as R from "ramda";
 
 export default class Puzzle {
+  private _sourcePuzzle = new Array<CellData>();
   private _puzzle = new Array<CellData>();
   private _solvedPuzzle = new Array<number>();
 
   constructor() {
     const tmp = makepuzzle();
     this._puzzle = tmp.map(this.initCell);
+    this._sourcePuzzle = R.clone(this._puzzle);
     this._solvedPuzzle = solvepuzzle(tmp);
   }
 
@@ -62,5 +65,9 @@ export default class Puzzle {
     const diff = this.forEachDiff(puzzle, this._solvedPuzzle);
 
     return this.findErrors(diff);
+  }
+
+  public resetPuzzle(): void {
+    this._puzzle = R.clone(this._sourcePuzzle);
   }
 }
