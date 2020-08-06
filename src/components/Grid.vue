@@ -1,17 +1,19 @@
 <template>
-  <div class="container">
-    <Cell
-      v-for="(cell, i) in puzzle.cells"
-      :key="i"
-      :isHover="indexOnHover(i)"
-      :isError="indexOnError(i)"
-      :isReadOnly="cell.isReadOnly"
-      @click="inputNumber(cell, i)"
-      @mouseenter="searchNumbers(cell.number)"
-      @mouseleave="clearHover()"
-    >
-      {{ cell.number }}
-    </Cell>
+  <div>
+    <div class="container">
+      <Cell
+        v-for="(cell, i) in puzzle.cells"
+        :key="i"
+        :isHover="indexOnHover(i)"
+        :isError="indexOnError(i)"
+        :isReadOnly="cell.isReadOnly"
+        @click="inputNumber(cell, i)"
+        @mouseenter="searchNumbers(cell.number)"
+        @mouseleave="clearHover()"
+      >
+        {{ cell.number }}
+      </Cell>
+    </div>
   </div>
 </template>
 

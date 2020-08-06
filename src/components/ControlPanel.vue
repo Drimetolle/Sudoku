@@ -66,7 +66,7 @@ export default class ControlPanel extends Vue {
       value: 9
     },
     {
-      view: "x",
+      view: "X",
       value: null
     }
   ];
@@ -140,7 +140,7 @@ export default class ControlPanel extends Vue {
 .control-container {
   --columns: 10;
   --content-width: 80vh;
-  --gutter: 1px;
+  --gutter: 17px;
   --row-size: calc(
     (var(--content-width) - (var(--gutter) * (var(--columns) - 1))) /
       var(--columns)
@@ -152,11 +152,13 @@ export default class ControlPanel extends Vue {
   grid-column-gap: var(--gutter);
   grid-row-gap: var(--gutter);
   margin: 15px auto;
+  font-size: 2em;
 }
 .element {
   cursor: pointer;
-  background-color: #d5d5d5d5;
   border-radius: 50%;
+  border: 2px solid #dcdcdc;
+  color: #727272;
   height: 95%;
   width: 95%;
   display: flex;
@@ -165,6 +167,6 @@ export default class ControlPanel extends Vue {
   margin: auto;
 }
 .selected {
-  background-color: aqua;
+  background-color: #dcdcdc;
 }
 </style>

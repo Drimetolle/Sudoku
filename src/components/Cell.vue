@@ -36,12 +36,13 @@ export default class Cell extends Vue {
   height: var(--height);
   width: var(--width);
   line-height: convert(var(--height), percent, px);
-  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
   cursor: pointer;
+  font-size: 2em;
+  color: #727272;
 }
 %circle-cell {
   @extend %base-cell;
@@ -50,18 +51,20 @@ export default class Cell extends Vue {
 
 .hover {
   @extend %circle-cell;
-  background-color: aqua !important;
-  transition: margin-right 2s, color 1s;
+  background-color: #a7b4bb !important;
+  color: #fff !important;
 }
 
 .error {
   @extend %circle-cell;
-  background-color: red !important;
+  background-color: #d76d6d !important;
+  color: #fff;
 }
 
 .const {
   @extend %circle-cell;
-  background-color: #d5d5d5d5;
+  background-color: #e7e7e7;
+  color: #9e9e9e;
   cursor: default;
 }
 
