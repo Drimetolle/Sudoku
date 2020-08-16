@@ -7,7 +7,8 @@
         :isHover="indexOnHover(i)"
         :isError="indexOnError(i)"
         :isReadOnly="cell.isReadOnly"
-        @click="inputNumber(cell, i)"
+        :drafts="cell.draftNumbers"
+        @click="inputRouter(cell, i)"
         @mouseenter="searchNumbers(cell.number)"
         @mouseleave="clearHover()"
       >
@@ -27,7 +28,7 @@ import * as R from "ramda";
 
 @Component({
   computed: {
-    ...mapGetters(["getSelectedNumber", "elementIsFocused"])
+    ...mapGetters(["getSelectedNumber", "elementIsFocused", "getPencilMode"])
   },
   components: {
     Cell
@@ -40,6 +41,7 @@ export default class Grid extends Vue {
 
   private getSelectedNumber!: number | null;
   private elementIsFocused!: boolean;
+  private getPencilMode!: boolean;
 
   private removeIndexOfArrays(index: number) {
     this.hoveredNumberIndexes = R.reject(
@@ -52,13 +54,51 @@ export default class Grid extends Vue {
     );
   }
 
+  hoverRouter(index: number): void {
+    if (this.getPencilMode) this.indexOnHoverWithPencil(index);
+    else this.indexOnHover(index);
+  }
+
+  errorRouter(index: number): void {
+    if (this.getPencilMode) this.indexOnErrorWithPencil(index);
+    else this.indexOnError(index);
+  }
+
+  inputRouter(cell: CellData, index: number): void {
+    if (this.getPencilMode) this.inputNumberWithPencil(cell, index);
+    else this.inputNumber(cell, index);
+  }
+
   inputNumber(cell: CellData, index: number): void {
     if (cell.isReadOnly) return;
     if (!this.elementIsFocused) return;
 
     if (cell.number == this.getSelectedNumber) cell.number = null;
-    else cell.number = this.getSelectedNumber;
+    else {
+      cell.number = this.getSelectedNumber;
+      cell.draftNumbers = new Set();
+    }
     this.removeIndexOfArrays(index);
+  }
+
+  inputNumberWithPencil(cell: CellData, index: number): void {
+    if (cell.isReadOnly) return;
+    if (!this.elementIsFocused) return;
+
+    if (typeof this.getSelectedNumber == "number") {
+      this.inputUniqueNumber(cell, this.getSelectedNumber);
+      cell.number = null;
+    } else cell.draftNumbers = new Set();
+    this.removeIndexOfArrays(index);
+  }
+
+  private inputUniqueNumber(cell: CellData, value: number): void {
+    if (cell.draftNumbers?.has(value)) {
+      cell.draftNumbers?.delete(value);
+      cell.draftNumbers = new Set(cell.draftNumbers);
+    } else if (cell.draftNumbers !== undefined) {
+      cell.draftNumbers = new Set([...cell.draftNumbers?.add(value)].sort());
+    }
   }
 
   getAllIndexes(arr: Array<number | null>, val: number) {
@@ -78,7 +118,11 @@ export default class Grid extends Vue {
       num
     );
 
-    this.hoveredNumberIndexes = indexes;
+    const draftIndexes = this.puzzle.cells
+      .map((el, i) => (el.draftNumbers?.has(num) ? i : Infinity))
+      .filter(el => el !== Infinity);
+
+    this.hoveredNumberIndexes = [...indexes, ...draftIndexes];
   }
 
   validate(): boolean {
@@ -91,7 +135,17 @@ export default class Grid extends Vue {
     return false;
   }
 
+  indexOnHoverWithPencil(i: number): boolean {
+    if (this.hoveredNumberIndexes.find(el => el === i) === i) return true;
+    return false;
+  }
+
   indexOnError(i: number): boolean {
+    if (this.errorNumberIndexes.find(el => el === i) === i) return true;
+    return false;
+  }
+
+  indexOnErrorWithPencil(i: number): boolean {
     if (this.errorNumberIndexes.find(el => el === i) === i) return true;
     return false;
   }

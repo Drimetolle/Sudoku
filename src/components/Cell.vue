@@ -13,19 +13,32 @@
         cell: !isReadOnly
       }"
     >
-      <slot />
+      <slot v-if="simpleValue" />
+      <CompositeCell class="composite" :drafts="drafts" v-else />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
+import CompositeCell from "@/components/CompositeCell.vue";
 
-@Component
+@Component({
+  components: {
+    CompositeCell
+  }
+})
 export default class Cell extends Vue {
   @Prop(Boolean) readonly isHover: boolean | undefined;
   @Prop(Boolean) readonly isError: boolean | undefined;
   @Prop(Boolean) readonly isReadOnly: boolean | undefined;
+  @Prop(Set) readonly drafts: Set<number> | undefined;
+
+  get simpleValue(): boolean {
+    if (this.drafts === undefined) return true;
+    else if (this.drafts.size == 0) return true;
+    else return false;
+  }
 }
 </script>
 
@@ -76,5 +89,11 @@ export default class Cell extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.composite {
+  font-size: 0.45em;
+  width: 80%;
+  background: transparent;
 }
 </style>
