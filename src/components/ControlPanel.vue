@@ -16,6 +16,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { mapMutations } from "vuex";
 import { KeyboardKeys } from "@/types/Keys";
+import { nullOrNumber } from "@/types/CellData";
 
 type SelectedElement = {
   view: string;
@@ -72,7 +73,7 @@ export default class ControlPanel extends Vue {
   ];
   private selected: null | SelectedElement = null;
 
-  private setSelectedNumber!: (num: number | null) => void;
+  private setSelectedNumber!: (num: nullOrNumber) => void;
   private throwFocus!: () => void;
 
   created() {

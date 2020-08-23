@@ -1,5 +1,5 @@
 import { makepuzzle, solvepuzzle } from "sudoku";
-import CellData from "@/types/CellData";
+import CellData, { nullOrNumber } from "@/types/CellData";
 import * as R from "ramda";
 
 export default class Puzzle {
@@ -32,7 +32,7 @@ export default class Puzzle {
   }
 
   private forEachDiff(
-    arr1: Array<number | null>,
+    arr1: Array<nullOrNumber>,
     arr2: Array<number>
   ): Array<number> {
     const result = [];

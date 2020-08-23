@@ -23,7 +23,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { mapGetters } from "vuex";
 import Puzzle from "@/game-rules/Puzzle";
 import Cell from "@/components/Cell.vue";
-import CellData from "@/types/CellData";
+import CellData, { nullOrNumber } from "@/types/CellData";
 import * as R from "ramda";
 
 @Component({
@@ -39,7 +39,7 @@ export default class Grid extends Vue {
   private hoveredNumberIndexes = new Array<number>();
   private errorNumberIndexes = new Array<number>();
 
-  private getSelectedNumber!: number | null;
+  private getSelectedNumber!: nullOrNumber;
   private elementIsFocused!: boolean;
   private getPencilMode!: boolean;
 
@@ -101,7 +101,7 @@ export default class Grid extends Vue {
     }
   }
 
-  getAllIndexes(arr: Array<number | null>, val: number) {
+  getAllIndexes(arr: Array<nullOrNumber>, val: number) {
     const indexes = [];
     let i = -1;
     while ((i = arr.indexOf(val, i + 1)) != -1) {
@@ -110,7 +110,7 @@ export default class Grid extends Vue {
     return indexes;
   }
 
-  searchNumbers(num: number | null): void {
+  searchNumbers(num: nullOrNumber): void {
     if (num === null) return;
 
     const indexes = this.getAllIndexes(

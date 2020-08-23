@@ -1,4 +1,4 @@
-type nullOrNumber = null | number;
+export type nullOrNumber = null | number;
 
 export default class CellData {
   public number: nullOrNumber;

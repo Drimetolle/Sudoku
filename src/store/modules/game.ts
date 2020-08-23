@@ -1,5 +1,7 @@
+import { nullOrNumber } from "@/types/CellData";
+
 class Game {
-  selectedElement: null | number;
+  selectedElement: nullOrNumber;
   selected: boolean;
   penciled: boolean;
 
@@ -11,7 +13,7 @@ class Game {
 }
 
 const getters = {
-  getSelectedNumber(state: Game): null | number {
+  getSelectedNumber(state: Game): nullOrNumber {
     return state.selectedElement;
   },
   elementIsFocused(state: Game): boolean {
@@ -25,7 +27,7 @@ const getters = {
 const actions = {};
 
 const mutations = {
-  setSelectedNumber(state: Game, num: null | number) {
+  setSelectedNumber(state: Game, num: nullOrNumber) {
     state.selectedElement = num;
     state.selected = true;
   },
