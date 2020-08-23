@@ -1,9 +1,13 @@
+type nullOrNumber = null | number;
+
 export default class CellData {
-  public number: number | null;
+  public number: nullOrNumber;
+  public draftNumbers?: Set<number>;
   public isReadOnly: boolean;
 
-  constructor(number: number | null, isReadOnly: boolean) {
+  constructor(number: nullOrNumber, isReadOnly: boolean) {
     this.number = number;
     this.isReadOnly = isReadOnly;
+    if (!isReadOnly) this.draftNumbers = new Set();
   }
 }

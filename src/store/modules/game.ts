@@ -1,10 +1,12 @@
 class Game {
   selectedElement: null | number;
   selected: boolean;
+  penciled: boolean;
 
   constructor() {
     this.selectedElement = null;
     this.selected = false;
+    this.penciled = false;
   }
 }
 
@@ -14,6 +16,9 @@ const getters = {
   },
   elementIsFocused(state: Game): boolean {
     return state.selected;
+  },
+  getPencilMode(state: Game): boolean {
+    return state.penciled;
   }
 };
 
@@ -26,6 +31,9 @@ const mutations = {
   },
   throwFocus(state: Game) {
     state.selected = false;
+  },
+  togglePencilMode(state: Game) {
+    state.penciled = !state.penciled;
   }
 };
 
