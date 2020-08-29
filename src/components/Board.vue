@@ -61,7 +61,6 @@ export default class Board extends Vue {
 
   pencilToggle() {
     this.togglePencilMode();
-    console.log(this.getPencilMode)
   }
 
   get isValid(): boolean {
