@@ -138,6 +138,8 @@ export default class ControlPanel extends Vue {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/_constants.scss";
+
 .control-container {
   --columns: 10;
   --content-width: 80vh;
@@ -158,8 +160,8 @@ export default class ControlPanel extends Vue {
 .element {
   cursor: pointer;
   border-radius: 50%;
-  border: 2px solid #dcdcdc;
-  color: #727272;
+  border: 2px solid $background-color-selected-button;
+  color: $color-selected-button;
   height: 95%;
   width: 95%;
   display: flex;
@@ -168,6 +170,6 @@ export default class ControlPanel extends Vue {
   margin: auto;
 }
 .selected {
-  background-color: #dcdcdc;
+  background-color: $background-color-selected-button;
 }
 </style>

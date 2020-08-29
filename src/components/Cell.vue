@@ -43,19 +43,21 @@ export default class Cell extends Vue {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/_constants.scss";
+
 %base-cell {
-  --width: 80%;
-  --height: 80%;
-  height: var(--height);
-  width: var(--width);
-  line-height: convert(var(--height), percent, px);
+  $width: 80%;
+  $height: 80%;
+  height: $height;
+  width: $width;
+  line-height: convert($height, percent, px);
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
   cursor: pointer;
   font-size: 2em;
-  color: #727272;
+  color: $font-color-entered-number;
 }
 %circle-cell {
   @extend %base-cell;
@@ -64,20 +66,20 @@ export default class Cell extends Vue {
 
 .hover {
   @extend %circle-cell;
-  background-color: #a7b4bb !important;
-  color: #fff !important;
+  background-color: $hover-color !important;
+  color: $font-color !important;
 }
 
 .error {
   @extend %circle-cell;
-  background-color: #d76d6d !important;
-  color: #fff;
+  background-color: $error-cell-background-color !important;
+  color: $font-color;
 }
 
 .const {
   @extend %circle-cell;
-  background-color: #e7e7e7;
-  color: #9e9e9e;
+  background-color: $const-cell-background-color;
+  color: $const-cell-font-color;
   cursor: default;
 }
 
@@ -95,5 +97,6 @@ export default class Cell extends Vue {
   font-size: 0.45em;
   width: 80%;
   background: transparent;
+  text-align: center;
 }
 </style>

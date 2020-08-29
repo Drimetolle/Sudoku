@@ -171,14 +171,14 @@ export default class Grid extends Vue {
   --columns: 9;
   --content-width: 80vh;
   --gutter: 1px;
-  --row-size: calc(
+  $row-size: calc(
     (var(--content-width) - (var(--gutter) * (var(--columns) - 1))) /
       var(--columns)
   );
   display: grid;
   max-width: var(--content-width);
   grid-template-columns: repeat(var(--columns), 1fr);
-  grid-auto-rows: var(--row-size);
+  grid-auto-rows: $row-size;
   grid-column-gap: var(--gutter);
   grid-row-gap: var(--gutter);
 }

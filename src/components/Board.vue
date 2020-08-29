@@ -2,25 +2,27 @@
   <div class="board">
     <Grid ref="grid" />
     <ControlPanel />
-    <div>
+    <div class="center-block-flex">
       <Button @click="validate()">
-        <i class="material-icons">
+        <i class="material-icons gray">
           done_all
         </i>
       </Button>
       <Button :isSelectable="true" @click="pencilToggle()">
-        <span class="material-icons">
+        <span class="material-icons gray">
           create
         </span>
       </Button>
       <Button @click="resetPuzzle()"
-        ><i class="material-icons">
+        ><i class="material-icons gray">
           replay
         </i></Button
       >
     </div>
-    <div v-if="valid">Puzzle valid!</div>
-    <div v-if="isValid">Puzzle invalid!</div>
+    <div class="center-block-flex">
+      <div v-if="valid">Puzzle valid!</div>
+      <div v-if="isValid">Puzzle invalid!</div>
+    </div>
   </div>
 </template>
 
@@ -59,6 +61,7 @@ export default class Board extends Vue {
 
   pencilToggle() {
     this.togglePencilMode();
+    console.log(this.getPencilMode)
   }
 
   get isValid(): boolean {
@@ -69,6 +72,18 @@ export default class Board extends Vue {
 </script>
 
 <style lang="scss">
+@import "@/styles/_constants.scss";
+
+.center-block-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.material-icons.gray {
+  color: $color-selected-button;
+}
+
 .board {
   --width: 80vh;
   margin: 0 auto;
