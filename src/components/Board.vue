@@ -8,11 +8,11 @@
           done_all
         </i>
       </Button>
-      <Button :isSelectable="true" @click="pencilToggle()">
-        <span class="material-icons gray">
+      <SwitchButton @click="pencilToggle()">
+        <i class="material-icons gray">
           create
-        </span>
-      </Button>
+        </i>
+      </SwitchButton>
       <Button @click="resetPuzzle()"
         ><i class="material-icons gray">
           replay
@@ -31,6 +31,7 @@ import { Component, Vue } from "vue-property-decorator";
 import Grid from "@/components/Grid.vue";
 import ControlPanel from "@/components/ControlPanel.vue";
 import Button from "@/components/standard-ui/Button.vue";
+import SwitchButton from "@/components/standard-ui/SwitchButton.vue";
 import { mapMutations, mapGetters } from "vuex";
 
 @Component({
@@ -43,7 +44,8 @@ import { mapMutations, mapGetters } from "vuex";
   components: {
     Grid,
     ControlPanel,
-    Button
+    Button,
+    SwitchButton
   }
 })
 export default class Board extends Vue {
@@ -84,8 +86,7 @@ export default class Board extends Vue {
 }
 
 .board {
-  --width: 80vh;
   margin: 0 auto;
-  width: var(--width);
+  width: 80vh;
 }
 </style>

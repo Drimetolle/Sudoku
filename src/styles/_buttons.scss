@@ -1,0 +1,25 @@
+$margin-button: 4px;
+$button-width: 64px;
+$button-height: 32px;
+
+%base-button {
+  width: $button-width;
+  height: $button-height;
+  border-radius: 50% / 100%;
+  overflow: auto;
+  margin: $margin-button;
+  border: transparent;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+%button-hover {
+  background-color: #2196f3;
+  color: $font-color;
+  & span {
+    color: $font-color !important;
+  }
+  & i {
+    color: $font-color !important;
+  }
+}

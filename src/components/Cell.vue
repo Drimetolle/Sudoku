@@ -59,6 +59,7 @@ export default class Cell extends Vue {
   font-size: 2em;
   color: $font-color-entered-number;
 }
+
 %circle-cell {
   @extend %base-cell;
   border-radius: 50%;
