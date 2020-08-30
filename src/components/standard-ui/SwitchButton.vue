@@ -3,7 +3,7 @@
     :class="{
       pressed: isPressed
     }"
-    class="sw-button"
+    class="sw-button unselectable"
     @click="click($event)"
   >
     <slot />
@@ -27,6 +27,7 @@ export default class SwitchButton extends Vue {
 <style lang="scss">
 @import "@/styles/_constants.scss";
 @import "@/styles/_buttons.scss";
+@import "@/styles/_unselectable.scss";
 
 .sw-button {
   @extend %base-button;

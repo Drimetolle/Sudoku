@@ -87,6 +87,6 @@ export default class Board extends Vue {
 
 .board {
   margin: 0 auto;
-  width: 80vh;
+  max-width: 60em;
 }
 </style>

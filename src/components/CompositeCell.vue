@@ -1,5 +1,5 @@
 <template>
-  <div>{{ gen(drafts) }}</div>
+  <p class="unselectable">{{ gen(drafts) }}</p>
 </template>
 
 <script lang="ts">
@@ -15,4 +15,6 @@ export default class CompositeCell extends Vue {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+@import "@/styles/_unselectable.scss";
+</style>

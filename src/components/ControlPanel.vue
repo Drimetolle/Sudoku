@@ -1,7 +1,7 @@
 <template>
   <div class="control-container">
     <div
-      class="element"
+      class="element unselectable"
       :class="{ selected: elementIsSelected(el) }"
       v-for="el in elements"
       :key="el.view"
@@ -140,22 +140,19 @@ export default class ControlPanel extends Vue {
 <style scoped lang="scss">
 @import "@/styles/_constants.scss";
 @import "@/styles/_board.scss";
+@import "@/styles/_unselectable.scss";
 
 .control-container {
-  display: grid;
-  $columns: 10;
-  $gutter: 17px;
-  grid-template-columns: repeat($columns, 1fr);
-  grid-gap: $gutter;
-  max-width: $content-width;
-  margin: 15px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 2em;
+  padding: 20px 0px;
 }
 
 .control-container div::before {
   content: "";
   padding-bottom: 100%;
-  display: inline-block;
   vertical-align: top;
 }
 
@@ -169,7 +166,7 @@ export default class ControlPanel extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: auto;
+  margin: 6px;
 }
 
 .selected {

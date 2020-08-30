@@ -12,6 +12,7 @@
         const: isReadOnly,
         cell: !isReadOnly
       }"
+      class="unselectable"
     >
       <slot v-if="simpleValue" />
       <CompositeCell class="composite" :drafts="drafts" v-else />
@@ -44,13 +45,11 @@ export default class Cell extends Vue {
 
 <style scoped lang="scss">
 @import "@/styles/_constants.scss";
+@import "@/styles/_unselectable.scss";
 
 %base-cell {
-  $width: 80%;
-  $height: 80%;
-  height: $height;
-  width: $width;
-  line-height: convert($height, percent, px);
+  height: 80%;
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,5 +98,11 @@ export default class Cell extends Vue {
   width: 80%;
   background: transparent;
   text-align: center;
+}
+
+@media (max-width: 900px) {
+  .composite {
+    font-size: 0.31em;
+  }
 }
 </style>

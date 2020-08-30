@@ -173,13 +173,11 @@ export default class Grid extends Vue {
   $gutter: 1px;
   grid-template-columns: repeat($columns, 1fr);
   grid-gap: $gutter;
-  max-width: $content-width;
 }
 
 .container div::before {
   content: "";
   padding-bottom: 100%;
-  display: inline-block;
   vertical-align: top;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <button class="a" @click="$emit('click', $event)">
+  <button class="unselectable" @click="$emit('click', $event)">
     <slot />
   </button>
 </template>
@@ -14,6 +14,7 @@ export default class Button extends Vue {}
 <style lang="scss">
 @import "@/styles/_constants.scss";
 @import "@/styles/_buttons.scss";
+@import "@/styles/_unselectable.scss";
 
 button {
   @extend %base-button;
