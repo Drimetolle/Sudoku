@@ -139,24 +139,26 @@ export default class ControlPanel extends Vue {
 
 <style scoped lang="scss">
 @import "@/styles/_constants.scss";
+@import "@/styles/_board.scss";
 
 .control-container {
-  --columns: 10;
-  --content-width: 80vh;
-  --gutter: 17px;
-  --row-size: calc(
-    (var(--content-width) - (var(--gutter) * (var(--columns) - 1))) /
-      var(--columns)
-  );
   display: grid;
-  max-width: var(--content-width);
-  grid-template-columns: repeat(var(--columns), 1fr);
-  grid-auto-rows: var(--row-size);
-  grid-column-gap: var(--gutter);
-  grid-row-gap: var(--gutter);
+  $columns: 10;
+  $gutter: 17px;
+  grid-template-columns: repeat($columns, 1fr);
+  grid-gap: $gutter;
+  max-width: $content-width;
   margin: 15px auto;
   font-size: 2em;
 }
+
+.control-container div::before {
+  content: "";
+  padding-bottom: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+
 .element {
   cursor: pointer;
   border-radius: 50%;
@@ -169,6 +171,7 @@ export default class ControlPanel extends Vue {
   align-items: center;
   margin: auto;
 }
+
 .selected {
   background-color: $background-color-selected-button;
 }

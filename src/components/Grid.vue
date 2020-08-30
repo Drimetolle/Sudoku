@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <div class="container">
-      <Cell
-        v-for="(cell, i) in puzzle.cells"
-        :key="i"
-        :isHover="indexOnHover(i)"
-        :isError="indexOnError(i)"
-        :isReadOnly="cell.isReadOnly"
-        :drafts="cell.draftNumbers"
-        @click="inputRouter(cell, i)"
-        @mouseenter="searchNumbers(cell.number)"
-        @mouseleave="clearHover()"
-      >
-        {{ cell.number }}
-      </Cell>
-    </div>
+  <div class="container">
+    <Cell
+      v-for="(cell, i) in puzzle.cells"
+      :key="i"
+      :isHover="indexOnHover(i)"
+      :isError="indexOnError(i)"
+      :isReadOnly="cell.isReadOnly"
+      :drafts="cell.draftNumbers"
+      @click="inputRouter(cell, i)"
+      @mouseenter="searchNumbers(cell.number)"
+      @mouseleave="clearHover()"
+    >
+      {{ cell.number }}
+    </Cell>
   </div>
 </template>
 
@@ -163,23 +161,25 @@ export default class Grid extends Vue {
 </script>
 
 <style lang="scss">
+@import "@/styles/_board.scss";
+
 .container div {
   background-color: whitesmoke;
 }
 
 .container {
-  --columns: 9;
-  --content-width: 80vh;
-  --gutter: 1px;
-  $row-size: calc(
-    (var(--content-width) - (var(--gutter) * (var(--columns) - 1))) /
-      var(--columns)
-  );
   display: grid;
-  max-width: var(--content-width);
-  grid-template-columns: repeat(var(--columns), 1fr);
-  grid-auto-rows: $row-size;
-  grid-column-gap: var(--gutter);
-  grid-row-gap: var(--gutter);
+  $columns: 9;
+  $gutter: 1px;
+  grid-template-columns: repeat($columns, 1fr);
+  grid-gap: $gutter;
+  max-width: $content-width;
+}
+
+.container div::before {
+  content: "";
+  padding-bottom: 100%;
+  display: inline-block;
+  vertical-align: top;
 }
 </style>
