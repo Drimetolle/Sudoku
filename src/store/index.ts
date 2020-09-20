@@ -1,14 +1,5 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import game from "./modules/game";
+import { Store, store } from "@/store/modules/game";
 
-Vue.use(Vuex);
+export default store as Store;
 
-const store = new Vuex.Store({
-  strict: true,
-  modules: {
-    game
-  }
-});
-
-export default store;
+export { Store };

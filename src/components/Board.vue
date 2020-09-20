@@ -27,19 +27,39 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import Grid from "@/components/Grid.vue";
+import { defineComponent } from "vue";
+import Grid, { GridRefsMethods } from "@/components/Grid.vue";
 import ControlPanel from "@/components/ControlPanel.vue";
 import Button from "@/components/standard-ui/Button.vue";
 import SwitchButton from "@/components/standard-ui/SwitchButton.vue";
-import { mapMutations, mapGetters } from "vuex";
+import { MutationTypes } from "@/store/modules/game/mutuations-types";
 
-@Component({
+interface Board {
+  valid: null | boolean;
+}
+
+export default defineComponent({
+  data() {
+    return {
+      valid: null
+    } as Board;
+  },
   computed: {
-    ...mapGetters(["getPencilMode"])
+    isValid(): boolean {
+      if (this.valid === null) return false;
+      else return !this.valid;
+    }
   },
   methods: {
-    ...mapMutations(["togglePencilMode"])
+    resetPuzzle(): void {
+      (this.$refs.grid as GridRefsMethods).reset();
+    },
+    validate() {
+      this.valid = (this.$refs.grid as GridRefsMethods).validate();
+    },
+    pencilToggle() {
+      this.$store.commit(MutationTypes.TOGGLE_PENCIL_MODE, undefined);
+    }
   },
   components: {
     Grid,
@@ -47,29 +67,7 @@ import { mapMutations, mapGetters } from "vuex";
     Button,
     SwitchButton
   }
-})
-export default class Board extends Vue {
-  private valid: boolean | null = null;
-  private togglePencilMode!: () => void;
-  private getPencilMode!: boolean;
-
-  resetPuzzle(): void {
-    (this.$refs.grid as Grid).reset();
-  }
-
-  validate() {
-    this.valid = (this.$refs.grid as Grid).validate();
-  }
-
-  pencilToggle() {
-    this.togglePencilMode();
-  }
-
-  get isValid(): boolean {
-    if (this.valid === null) return false;
-    else return !this.valid;
-  }
-}
+});
 </script>
 
 <style lang="scss">

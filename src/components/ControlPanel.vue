@@ -13,128 +13,131 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { mapMutations } from "vuex";
+import { defineComponent } from "vue";
 import { KeyboardKeys } from "@/types/Keys";
-import { nullOrNumber } from "@/types/CellData";
+import { MutationTypes } from "@/store/modules/game/mutuations-types";
 
 type SelectedElement = {
   view: string;
   value: null | number;
 };
 
-@Component({
-  methods: {
-    ...mapMutations(["setSelectedNumber", "throwFocus"])
-  }
-})
-export default class ControlPanel extends Vue {
-  private elements: Array<SelectedElement> = [
-    {
-      view: "1",
-      value: 1
-    },
-    {
-      view: "2",
-      value: 2
-    },
-    {
-      view: "3",
-      value: 3
-    },
-    {
-      view: "4",
-      value: 4
-    },
-    {
-      view: "5",
-      value: 5
-    },
-    {
-      view: "6",
-      value: 6
-    },
-    {
-      view: "7",
-      value: 7
-    },
-    {
-      view: "8",
-      value: 8
-    },
-    {
-      view: "9",
-      value: 9
-    },
-    {
-      view: "X",
-      value: null
-    }
-  ];
-  private selected: null | SelectedElement = null;
+interface ControlPanel {
+  elements: Array<SelectedElement>;
+  selected: null | SelectedElement;
+}
 
-  private setSelectedNumber!: (num: nullOrNumber) => void;
-  private throwFocus!: () => void;
-
+export default defineComponent({
+  data() {
+    return {
+      elements: [
+        {
+          view: "1",
+          value: 1
+        },
+        {
+          view: "2",
+          value: 2
+        },
+        {
+          view: "3",
+          value: 3
+        },
+        {
+          view: "4",
+          value: 4
+        },
+        {
+          view: "5",
+          value: 5
+        },
+        {
+          view: "6",
+          value: 6
+        },
+        {
+          view: "7",
+          value: 7
+        },
+        {
+          view: "8",
+          value: 8
+        },
+        {
+          view: "9",
+          value: 9
+        },
+        {
+          view: "X",
+          value: null
+        }
+      ],
+      selected: null
+    } as ControlPanel;
+  },
   created() {
     window.addEventListener("keydown", this.keyHandler);
-  }
-  destroyed() {
+  },
+  unmounted() {
     window.removeEventListener("keydown", this.keyHandler);
-  }
+  },
+  methods: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    keyHandler(event: any) {
+      if (event.keyCode == KeyboardKeys.one) {
+        this.selectElementOnClick(this.elements[0]);
+      }
+      if (event.keyCode == KeyboardKeys.two) {
+        this.selectElementOnClick(this.elements[1]);
+      }
+      if (event.keyCode == 51) {
+        this.selectElementOnClick(this.elements[2]);
+      }
+      if (event.keyCode == 52) {
+        this.selectElementOnClick(this.elements[3]);
+      }
+      if (event.keyCode == 53) {
+        this.selectElementOnClick(this.elements[4]);
+      }
+      if (event.keyCode == 54) {
+        this.selectElementOnClick(this.elements[5]);
+      }
+      if (event.keyCode == 55) {
+        this.selectElementOnClick(this.elements[6]);
+      }
+      if (event.keyCode == 56) {
+        this.selectElementOnClick(this.elements[7]);
+      }
+      if (event.keyCode == 57) {
+        this.selectElementOnClick(this.elements[8]);
+      }
+      if (event.keyCode == KeyboardKeys.x) {
+        this.selectElementOnClick(this.elements[9]);
+      }
+      if (event.keyCode == KeyboardKeys.del) {
+        this.selectElementOnClick(this.elements[9]);
+      }
+    },
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  keyHandler(event: any) {
-    if (event.keyCode == KeyboardKeys.one) {
-      this.selectElementOnClick(this.elements[0]);
-    }
-    if (event.keyCode == KeyboardKeys.two) {
-      this.selectElementOnClick(this.elements[1]);
-    }
-    if (event.keyCode == 51) {
-      this.selectElementOnClick(this.elements[2]);
-    }
-    if (event.keyCode == 52) {
-      this.selectElementOnClick(this.elements[3]);
-    }
-    if (event.keyCode == 53) {
-      this.selectElementOnClick(this.elements[4]);
-    }
-    if (event.keyCode == 54) {
-      this.selectElementOnClick(this.elements[5]);
-    }
-    if (event.keyCode == 55) {
-      this.selectElementOnClick(this.elements[6]);
-    }
-    if (event.keyCode == 56) {
-      this.selectElementOnClick(this.elements[7]);
-    }
-    if (event.keyCode == 57) {
-      this.selectElementOnClick(this.elements[8]);
-    }
-    if (event.keyCode == KeyboardKeys.x) {
-      this.selectElementOnClick(this.elements[9]);
-    }
-    if (event.keyCode == KeyboardKeys.del) {
-      this.selectElementOnClick(this.elements[9]);
-    }
-  }
+    selectElementOnClick(el: SelectedElement): void {
+      if (this.selected === el) {
+        this.selected = null;
+        this.$store.commit(MutationTypes.SET_SELECTED_NUMBER, null);
+        this.$store.commit(MutationTypes.TWROW_FOCUS, undefined);
+      } else {
+        this.selected = el;
+        this.$store.commit(
+          MutationTypes.SET_SELECTED_NUMBER,
+          this.selected.value
+        );
+      }
+    },
 
-  selectElementOnClick(el: SelectedElement): void {
-    if (this.selected === el) {
-      this.selected = null;
-      this.setSelectedNumber(null);
-      this.throwFocus();
-    } else {
-      this.selected = el;
-      this.setSelectedNumber(this.selected.value);
+    elementIsSelected(el: SelectedElement): boolean {
+      return this.selected === el;
     }
   }
-
-  elementIsSelected(el: SelectedElement): boolean {
-    return this.selected === el;
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">

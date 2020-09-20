@@ -21,26 +21,35 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { defineComponent, PropType } from "vue";
 import CompositeCell from "@/components/CompositeCell.vue";
 
-@Component({
+export default defineComponent({
+  props: {
+    isHover: {
+      type: Boolean
+    },
+    isError: {
+      type: Boolean
+    },
+    isReadOnly: {
+      type: Boolean
+    },
+    drafts: {
+      type: Object as PropType<Set<number>>
+    }
+  },
+  computed: {
+    simpleValue(): boolean {
+      if (this.drafts === undefined) return true;
+      else if (this.drafts.size == 0) return true;
+      else return false;
+    }
+  },
   components: {
     CompositeCell
   }
-})
-export default class Cell extends Vue {
-  @Prop(Boolean) readonly isHover: boolean | undefined;
-  @Prop(Boolean) readonly isError: boolean | undefined;
-  @Prop(Boolean) readonly isReadOnly: boolean | undefined;
-  @Prop(Set) readonly drafts: Set<number> | undefined;
-
-  get simpleValue(): boolean {
-    if (this.drafts === undefined) return true;
-    else if (this.drafts.size == 0) return true;
-    else return false;
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">

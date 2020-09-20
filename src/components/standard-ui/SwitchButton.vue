@@ -11,17 +11,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { defineComponent } from "vue";
 
-@Component
-export default class SwitchButton extends Vue {
-  private isPressed = false;
-
-  click(event: unknown) {
-    this.isPressed = !this.isPressed;
-    this.$emit("click", event);
+export default defineComponent({
+  data() {
+    return {
+      isPressed: false
+    };
+  },
+  methods: {
+    click(event: unknown) {
+      this.isPressed = !this.isPressed;
+      this.$emit("click", event);
+    }
   }
-}
+});
 </script>
 
 <style lang="scss">

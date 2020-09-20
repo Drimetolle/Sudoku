@@ -1,18 +1,22 @@
 <template>
-  <p class="unselectable">{{ gen(drafts) }}</p>
+  <p class="unselectable">{{ generateCell(drafts) }}</p>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { defineComponent, PropType } from "vue";
 
-@Component
-export default class CompositeCell extends Vue {
-  @Prop(Set) readonly drafts: Set<number> | undefined;
-
-  gen(a: Set<number>): string {
-    return [...a].join(" ");
+export default defineComponent({
+  props: {
+    drafts: {
+      type: Object as PropType<Set<number>>
+    }
+  },
+  methods: {
+    generateCell(a: Set<number>): string {
+      return [...a].join(" ");
+    }
   }
-}
+});
 </script>
 
 <style scoped lang="scss">

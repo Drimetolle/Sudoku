@@ -5,15 +5,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { defineComponent } from "vue";
 import Board from "@/components/Board.vue";
 
-@Component({
+export default defineComponent({
+  name: "App",
   components: {
     Board
   }
-})
-export default class App extends Vue {}
+});
 </script>
 
 <style lang="scss">
