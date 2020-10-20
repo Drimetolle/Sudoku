@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="container"
-    @click="() => $emit('click')"
-    @mouseenter="() => $emit('mouseenter')"
-    @mouseleave="() => $emit('mouseleave')"
-  >
+  <div class="container">
     <div
       :class="{
         hover: isHover,

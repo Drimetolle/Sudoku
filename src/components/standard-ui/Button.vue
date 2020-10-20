@@ -1,5 +1,5 @@
 <template>
-  <button class="unselectable" @click="$emit('click', $event)">
+  <button class="unselectable">
     <slot />
   </button>
 </template>

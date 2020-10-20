@@ -1,3 +1,5 @@
+@import "@/styles/_constants.scss";
+
 $margin-button: 4px;
 $button-width: 64px;
 $button-height: 32px;
@@ -14,7 +16,7 @@ $button-height: 32px;
 }
 
 %button-hover {
-  background-color: #2196f3;
+  background-color: $background-color-for-ui;
   color: $font-color;
   & span {
     color: $font-color !important;

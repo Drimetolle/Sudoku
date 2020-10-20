@@ -13,11 +13,16 @@
           create
         </i>
       </SwitchButton>
-      <Button @click="resetPuzzle()"
-        ><i class="material-icons gray">
+      <Button @click="resetPuzzle()">
+        <i class="material-icons gray">
           replay
-        </i></Button
-      >
+        </i>
+      </Button>
+      <Button @click="undo()">
+        <i class="material-icons gray">
+          undo
+        </i>
+      </Button>
     </div>
     <div class="center-block-flex">
       <div v-if="valid">Puzzle valid!</div>
@@ -58,8 +63,9 @@ export default defineComponent({
       this.valid = (this.$refs.grid as GridRefsMethods).validate();
     },
     pencilToggle() {
-      this.$store.commit(MutationTypes.TOGGLE_PENCIL_MODE, undefined);
-    }
+      this.$store.commit(MutationTypes.TOGGLE_PENCIL_MODE);
+    },
+    undo() {}
   },
   components: {
     Grid,

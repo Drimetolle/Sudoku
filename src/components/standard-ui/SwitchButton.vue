@@ -20,9 +20,8 @@ export default defineComponent({
     };
   },
   methods: {
-    click(event: unknown) {
+    click() {
       this.isPressed = !this.isPressed;
-      this.$emit("click", event);
     }
   }
 });
@@ -60,7 +59,7 @@ export default defineComponent({
 }
 
 .pressed {
-  background-color: #2196f3;
+  background-color: $background-color-for-ui;
   & span {
     color: $font-color !important;
   }

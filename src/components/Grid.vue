@@ -18,10 +18,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Puzzle from "@/game-rules/Puzzle";
 import Cell from "@/components/Cell.vue";
 import CellData, { nullOrNumber } from "@/types/CellData";
 import * as R from "ramda";
+import Puzzle from "@/game-rules/Puzzle";
+import ActionQueue, { Action, ActionType } from "@/game-rules/ActionQueue";
 
 export interface GridRefsMethods {
   reset(): void;
@@ -32,6 +33,7 @@ export default defineComponent({
   data() {
     return {
       puzzle: new Puzzle(),
+      actionQueue: new ActionQueue(),
       hoveredNumberIndexes: new Array<number>(),
       errorNumberIndexes: new Array<number>()
     };
@@ -48,20 +50,12 @@ export default defineComponent({
       );
     },
 
-    hoverRouter(index: number): void {
-      if (this.$store.getters.getPencilMode) this.indexOnHoverWithPencil(index);
-      else this.indexOnHover(index);
-    },
-
-    errorRouter(index: number): void {
-      if (this.$store.getters.getPencilMode) this.indexOnErrorWithPencil(index);
-      else this.indexOnError(index);
-    },
-
     inputRouter(cell: CellData, index: number): void {
-      if (this.$store.getters.getPencilMode)
+      if (this.$store.getters.getPencilMode) {
         this.inputNumberWithPencil(cell, index);
-      else this.inputNumber(cell, index);
+      } else {
+        this.inputNumber(cell, index);
+      }
     },
 
     inputNumber(cell: CellData, index: number): void {
@@ -74,6 +68,13 @@ export default defineComponent({
         cell.number = this.$store.getters.getSelectedNumber;
         cell.draftNumbers = new Set();
       }
+      this.actionQueue.push(
+        new Action(
+          this.$store.getters.getSelectedNumber,
+          index,
+          ActionType.value
+        )
+      );
       this.removeIndexOfArrays(index);
     },
 
@@ -85,6 +86,13 @@ export default defineComponent({
         this.inputUniqueNumber(cell, this.$store.getters.getSelectedNumber);
         cell.number = null;
       } else cell.draftNumbers = new Set();
+      this.actionQueue.push(
+        new Action(
+          this.$store.getters.getSelectedNumber,
+          index,
+          ActionType.draft
+        )
+      );
       this.removeIndexOfArrays(index);
     },
 
@@ -95,15 +103,6 @@ export default defineComponent({
       } else if (cell.draftNumbers !== undefined) {
         cell.draftNumbers = new Set([...cell.draftNumbers?.add(value)].sort());
       }
-    },
-
-    getAllIndexes(arr: Array<nullOrNumber>, val: number) {
-      const indexes = [];
-      let i = -1;
-      while ((i = arr.indexOf(val, i + 1)) != -1) {
-        indexes.push(i);
-      }
-      return indexes;
     },
 
     searchNumbers(num: nullOrNumber): void {
@@ -119,6 +118,15 @@ export default defineComponent({
         .filter(el => el !== Infinity);
 
       this.hoveredNumberIndexes = [...indexes, ...draftIndexes];
+    },
+
+    getAllIndexes(arr: Array<nullOrNumber>, val: number) {
+      const indexes = [];
+      let i = -1;
+      while ((i = arr.indexOf(val, i + 1)) != -1) {
+        indexes.push(i);
+      }
+      return indexes;
     },
 
     validate(): boolean {
@@ -137,17 +145,7 @@ export default defineComponent({
       return false;
     },
 
-    indexOnHoverWithPencil(i: number): boolean {
-      if (this.hoveredNumberIndexes.find(el => el === i) === i) return true;
-      return false;
-    },
-
     indexOnError(i: number): boolean {
-      if (this.errorNumberIndexes.find(el => el === i) === i) return true;
-      return false;
-    },
-
-    indexOnErrorWithPencil(i: number): boolean {
       if (this.errorNumberIndexes.find(el => el === i) === i) return true;
       return false;
     },
@@ -164,6 +162,7 @@ export default defineComponent({
 
 <style lang="scss">
 @import "@/styles/_board.scss";
+@import "@/styles/_constants.scss";
 
 .container div {
   background-color: whitesmoke;
