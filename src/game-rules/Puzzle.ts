@@ -1,21 +1,23 @@
 import { makepuzzle, solvepuzzle } from "sudoku";
 import CellData, { nullOrNumber } from "@/types/CellData";
-import * as R from "ramda";
 
 export default class Puzzle {
-  private _sourcePuzzle = new Array<CellData>();
+  private _sourcePuzzle = new Array<nullOrNumber>();
   private _puzzle = new Array<CellData>();
   private _solvedPuzzle = new Array<number>();
 
   constructor() {
-    const tmp = makepuzzle();
-    this._puzzle = tmp.map(this.initCell);
-    this._sourcePuzzle = R.clone(this._puzzle);
-    this._solvedPuzzle = solvepuzzle(tmp);
+    this._sourcePuzzle = makepuzzle();
+    this._puzzle = this._sourcePuzzle.map(this.initCell);
+    this._solvedPuzzle = solvepuzzle(this._sourcePuzzle);
   }
 
   get cells() {
     return this._puzzle;
+  }
+
+  set cells(newValue: Array<CellData>) {
+    this._puzzle = newValue;
   }
 
   private initCell(e: unknown): CellData {
@@ -68,6 +70,6 @@ export default class Puzzle {
   }
 
   public resetPuzzle(): void {
-    this._puzzle = R.clone(this._sourcePuzzle);
+    this._puzzle = this._sourcePuzzle.map(this.initCell);
   }
 }

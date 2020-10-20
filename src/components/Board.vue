@@ -65,7 +65,9 @@ export default defineComponent({
     pencilToggle() {
       this.$store.commit(MutationTypes.TOGGLE_PENCIL_MODE);
     },
-    undo() {}
+    undo() {
+      (this.$refs.grid as GridRefsMethods).undo();
+    }
   },
   components: {
     Grid,

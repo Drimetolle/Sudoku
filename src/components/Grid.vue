@@ -27,6 +27,7 @@ import ActionQueue, { Action, ActionType } from "@/game-rules/ActionQueue";
 export interface GridRefsMethods {
   reset(): void;
   validate(): boolean;
+  undo(): void;
 }
 
 export default defineComponent({
@@ -62,15 +63,18 @@ export default defineComponent({
       if (cell.isReadOnly) return;
       if (!this.$store.getters.elementIsFocused) return;
 
-      if (cell.number == this.$store.getters.getSelectedNumber)
+      const value = cell.number;
+
+      if (cell.number == this.$store.getters.getSelectedNumber) {
         cell.number = null;
-      else {
+      } else {
         cell.number = this.$store.getters.getSelectedNumber;
         cell.draftNumbers = new Set();
       }
       this.actionQueue.push(
         new Action(
           this.$store.getters.getSelectedNumber,
+          value,
           index,
           ActionType.value
         )
@@ -82,6 +86,8 @@ export default defineComponent({
       if (cell.isReadOnly) return;
       if (!this.$store.getters.elementIsFocused) return;
 
+      const value = cell.number;
+
       if (typeof this.$store.getters.getSelectedNumber == "number") {
         this.inputUniqueNumber(cell, this.$store.getters.getSelectedNumber);
         cell.number = null;
@@ -89,6 +95,7 @@ export default defineComponent({
       this.actionQueue.push(
         new Action(
           this.$store.getters.getSelectedNumber,
+          value,
           index,
           ActionType.draft
         )
@@ -152,6 +159,26 @@ export default defineComponent({
 
     clearHover(): void {
       this.hoveredNumberIndexes = [];
+    },
+
+    undo(): void {
+      const cell = this.actionQueue.pop();
+
+      if (!cell) {
+        return;
+      }
+
+      if (cell.type === ActionType.value) {
+        this.puzzle.cells[cell.index].number = cell.previousValue;
+        this.puzzle.cells.splice(cell.index, 1, this.puzzle.cells[cell.index]);
+      } else if (cell.type === ActionType.draft) {
+        const element = this.puzzle.cells[cell.index];
+
+        if (cell.value) {
+          element.draftNumbers?.delete(cell.value);
+          this.puzzle.cells.splice(cell.index, 1, element);
+        }
+      }
     }
   },
   components: {

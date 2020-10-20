@@ -8,6 +8,6 @@ export default class CellData {
   constructor(number: nullOrNumber, isReadOnly: boolean) {
     this.number = number;
     this.isReadOnly = isReadOnly;
-    if (!isReadOnly) this.draftNumbers = new Set();
+    if (!isReadOnly) this.draftNumbers = new Set<number>();
   }
 }
