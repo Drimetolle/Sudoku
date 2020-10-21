@@ -20,5 +20,5 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import "@/styles/_unselectable.scss";
+@import "~@/styles/_unselectable.scss";
 </style>

@@ -127,8 +127,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "@/styles/_board.scss";
-@import "@/styles/_constants.scss";
+@import "~@/styles/_board.scss";
+@import "~@/styles/_constants.scss";
 
 .container div {
   background-color: whitesmoke;

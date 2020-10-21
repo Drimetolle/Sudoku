@@ -37,8 +37,7 @@ export default defineComponent({
   computed: {
     simpleValue(): boolean {
       if (this.drafts === undefined) return true;
-      else if (this.drafts.size == 0) return true;
-      else return false;
+      else return this.drafts.size == 0;
     }
   },
   components: {
@@ -48,8 +47,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import "@/styles/_constants.scss";
-@import "@/styles/_unselectable.scss";
+@import "~@/styles/_constants.scss";
+@import "~@/styles/_unselectable.scss";
 
 %base-cell {
   height: 80%;

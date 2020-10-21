@@ -32,22 +32,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import Grid, { GridRefsMethods } from "@/components/Grid.vue";
 import ControlPanel from "@/components/ControlPanel.vue";
 import Button from "@/components/standard-ui/Button.vue";
 import SwitchButton from "@/components/standard-ui/SwitchButton.vue";
 import { MutationTypes } from "@/store/modules/game/mutuations-types";
 
-interface Board {
-  valid: null | boolean;
-}
-
 export default defineComponent({
-  data() {
+  setup() {
+    const valid = ref<null | boolean>(null);
     return {
-      valid: null
-    } as Board;
+      valid
+    };
   },
   computed: {
     isValid(): boolean {
@@ -79,7 +76,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "@/styles/_constants.scss";
+@import "~@/styles/_constants.scss";
 
 .center-block-flex {
   display: flex;

@@ -14,7 +14,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  data() {
+  data: () => {
     return {
       isPressed: false
     };
@@ -28,9 +28,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "@/styles/_constants.scss";
-@import "@/styles/_buttons.scss";
-@import "@/styles/_unselectable.scss";
+@import "~@/styles/_constants.scss";
+@import "~@/styles/_buttons.scss";
+@import "~@/styles/_unselectable.scss";
 
 .sw-button {
   @extend %base-button;
